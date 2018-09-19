@@ -10,9 +10,9 @@
 
 
 def convert(in_string):
-    no_no = ["!", "@", "#", "$", "%", "^", "&", #This finds and deletes
-             "*", "(", ")", "_","+", "<", ">",
-             "?", ",", ".", "/"]
+    no_no = ["!", "@", "#", "$", "%", "^", "&","*", "(", ")", "_","+",
+             "<", ">", "?", ",", ".", "/", "0", "1", "2","3","4","5","7",
+             "8","9"] #non-alphanumerical
     my_word = ['the', 'quick', 'fox', 'dog'] #Code words
     equ_list = [] #Equation list
     for m in in_string:    #This finds and deletes symbols that are not
