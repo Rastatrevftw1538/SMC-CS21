@@ -22,6 +22,8 @@
     of the array and leaves the value on the right side.
     
 """
+
+#Reverse is currently broken and dosent work as intended
 def reverse(my_list, if_greater=False):
     for i in range(0,9):
         if not isinstance(my_list, list):
