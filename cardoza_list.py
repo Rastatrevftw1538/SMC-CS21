@@ -14,6 +14,7 @@
     grabs numbers in list, sorts then spits in decreasing order.
 
 """
+#Reverse is currently broken and dosent work as intended
 def reverse(my_list, if_greater=False):
     for i in range(0,9):
         if not isinstance(my_list, list):
