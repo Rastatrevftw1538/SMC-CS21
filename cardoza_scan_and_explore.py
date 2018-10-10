@@ -1,3 +1,4 @@
+
 # Trevor Cardoza
 # CS 21, Fall 2018
 # Program: scan and explore
