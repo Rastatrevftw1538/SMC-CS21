@@ -1,7 +1,7 @@
 # Trevor Cardoza
 # CS 21, Fall 2018
 # Program: cardoza_word_base
-
+ 
 
 #This program will take any sentence and remove all irrelevent words except
 #the code words. Then it will assign base-4 notation to each word then combine
