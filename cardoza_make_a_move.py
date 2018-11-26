@@ -7,16 +7,26 @@ from math import sqrt
 from time import sleep
 from random import *
 
+'''This function creates the window by setting the graphic window to
+900 by 900, sets the background to light grey, and setting the
+coordinates to -25,-25 and 25,25 so the center of the screen is equal
+to 0,0. Then return the window created.'''
 def create_window():
     win = GraphWin("Snake",900,900)
     win.setBackground("light grey")
-    win.setCoords(-50,-50,50,50)
+    win.setCoords(-25,-25,25,25)
     Point(0,0).draw(win)
     return win
 
+'''This function creates the player by grabbing the window and the x and y
+coordinates set by the random int function in main. Then the function creates
+a list called body parts that has a length of 4. The next list called creature
+is used to turn the ints in body parts into yellow rectangles to make the body.
+In the for loop, it creates clones of the head, moves them 1 spot to the right,
+and attachs the rectangle to the list creature.'''
 def create_creature(win, x, y):
     n = 0
-    body_parts=[0,1,2,3,4,5,6,7,8,9]
+    body_parts=[0,1,2,3]
     creature=[]
     head=Rectangle(Point(-0.5,-0.5),Point(0.5,0.5))
     head.move(x,y)
@@ -24,20 +34,26 @@ def create_creature(win, x, y):
     for i in body_parts:
         i = head.clone()
         i.move(n,0)
-        if n > 0:
-            i.setFill("red")
         creature.append(i)
         i.draw(win)
         n += 1
     return creature
 
+'''The main function starts by setting variables and creating
+the border that shows where the out of bounds is. This is also
+where the Apple is created, colored and centered in the middle
+of the screen. Another purpose for this is to creates the UI
+retaining to which buttons to press to begin. Then inside a
+while loop equaling true, there is a try-except operator that
+signifies if Q is pressed, then close the window. Also it is
+to prevent any exception errors.'''
 def main():
     my_win = create_window()
-    border = Rectangle(Point(-50,-50),Point(50,50))
+    border = Rectangle(Point(-25,-25),Point(25,25))
     border.setOutline("yellow")
     border.setWidth(3)
     border.draw(my_win)
-    creature = create_creature(my_win,randint(-48,48),randint(-48,48))
+    creature = create_creature(my_win,randint(-20,20),randint(-20,20))
     v = 0
     h = 0
     Speed = 0.1
@@ -45,12 +61,10 @@ def main():
     Apple.setFill("red")
     Apple.setOutline("green")
     Apple.setWidth(2)
-    Apple.move(randint(-48,48),randint(-48,48))
     Apple.draw(my_win)
     Start = Text(Point(0,0), "PRESS I, J, K, or M TO START!")
     Start.setSize(20)
     Start.draw(my_win)
-    print(Apple)
     while True:
         try:
             button_Press = my_win.checkKey()
@@ -62,26 +76,24 @@ def main():
             except GraphicsError:
                 return None
         else:
+'''When the game is running, it will get the center and x and
+y coordinates of the head of the snake.'''
             if button_Press != None:
                 p = creature[0].getCenter()
                 x = p.getX()
                 y = p.getY()
-                body_line = Line(Point(x,y),creature[len(creature)-1].getCenter())
-                bls = body_line.getP1().getX()-0.1
-                ble = body_line.getP2().getX()-0.1
-                body_line.draw(my_win)
-                body_line.undraw()
                 time.sleep(Speed)
                 if x >= border.getP2().getX() or x <= border.getP1().getX() or y >= border.getP2().getY() or y <= border.getP1().getY():
                     v = 0
                     h = 0
                     game_Over = Text(Point(0,0), "Game Over")
-                    game_Over.setSize(20)
+                    game_Over.setSize(30)
                     game_Over.draw(my_win)
                     for l in creature:
                         l.undraw()
+                        time.sleep(0.1)
                     for x in range(3,0,-1):
-                        count_Down = Text(Point(0,-5), x)
+                        count_Down = Text(Point(0,-2), x)
                         count_Down.setSize(30)
                         count_Down.draw(my_win)
                         time.sleep(0.8)
@@ -94,18 +106,26 @@ def main():
                 d = sqrt((Apple.getCenter().getX()-x)**2+(Apple.getCenter().getY()-y)**2)
                 if d == 0:
                     Apple.undraw()
+                    loading = Text(Point(0,0),"Loading New Apple")
+                    loading.setSize(20)
                     creature.append(Rectangle(Point(-0.5,-0.5),Point(0.5,0.5)))
                     creature[0].setFill("yellow")
                     Speed = Speed*0.5
-                    print(Speed)
                     Apple.draw(my_win)
-                    av = randint(-48,48)
-                    ah = randint(-48,48)
+                    av = randint(-10,10)
+                    ah = randint(-10,10)
                     Apple.move(av,av)
-                    while (Apple.getCenter().getX() >= 48 or Apple.getCenter().getX() <= -48 or Apple.getCenter().getY() >= 48 or Apple.getCenter().getY() <= -48):
-                        Apple.move(randint(-30,30),randint(-30,30))
-                        time.sleep(0.3)
-                    print("Apple",Apple)
+                    while (Apple.getCenter().getX() >= 25 or Apple.getCenter().getY() >= 25):
+                        loading.draw(my_win)
+                        Apple.move(randint(-20,-19),randint(-20,-19))
+                        loading.undraw()
+                    while (Apple.getCenter().getX() <= -25 or Apple.getCenter().getY() <= -25):
+                        loading.draw(my_win)
+                        Apple.move(randint(19,20),randint(19,20))
+                        loading.undraw()
+'''Depending on the direction it is going in (either left[v=-1], right[v=1],
+up[h=1] and down[h=-1]) the rectangle at the end of the snake will move to
+the front of the snake.'''
             if h == 1 or button_Press == "i" and h != -1:
                 Start.undraw()
                 creature[len(creature)-1].undraw()
