@@ -94,6 +94,11 @@ def main():
                 x = p.getX()
                 y = p.getY()
                 time.sleep(Speed)
+#If you hit the border (which is the x and the y
+#of the head equaling or greater then the border)
+#than it will delete each rectangle of the creature
+#than then A text box with game over and the numbers
+#3,2,1 then it will close the window and rerun main()
                 if x >= border.getP2().getX() or x <= border.getP1().getX() or y >= border.getP2().getY() or y <= border.getP1().getY():
                     v = 0
                     h = 0
@@ -117,16 +122,27 @@ def main():
                         highestScore.pop()
                         highestScore.append(L)
                     main()
+#The distance formula is addressed as d and used to determine
+#how far away the snakes head is from the apple. When the distance
+#calculated is equal to 0, then it will add another rectangle to the
+#beginning of the snake and move it's way down. While that happens,
+#the score will be changed by one and the apple will be moved randomly
+#between -10 and 10 on both axis. Also, the speed will increase by 1.2
+#percent by decreasing the pause time in the move section of the
+#program.
                 d = sqrt((Apple.getCenter().getX()-x)**2+(Apple.getCenter().getY()-y)**2)
                 if d == 0:
                     creature.append(Rectangle(Point(-0.5,-0.5),Point(0.5,0.5)))
                     creature[0].setFill("yellow2")
-                    Speed = Speed*0.5
+                    Speed = Speed/1.2
                     av = randint(-10,10)
                     ah = randint(-10,10)
                     Apple.move(av,av)
                     L += 1
                     Number.setText(L)
+#If the apple ever moves outside the window, then it will continue to move
+#either -10 to -20 if it exited from the right or 10 to 20 if it exited from
+#the left.
                     while (Apple.getCenter().getX() >= 25 or Apple.getCenter().getY() >= 25):
                         Apple.move(randint(-20,-19),randint(-20,-19))
                     while (Apple.getCenter().getX() <= -25 or Apple.getCenter().getY() <= -25):
@@ -144,6 +160,7 @@ def main():
                 v = 0
                 h = 1
                 creature[0].draw(my_win)
+                time.sleep(Speed)
             if v == 1 or button_Press == "k" and v != -1:
                 Start.undraw()
                 creature[len(creature)-1].undraw()
@@ -154,6 +171,7 @@ def main():
                 v = 1
                 h = 0
                 creature[0].draw(my_win)
+                time.sleep(Speed)
             if v == -1 or button_Press == "j" and v != 1:
                 Start.undraw()
                 creature[len(creature)-1].undraw()
@@ -164,6 +182,7 @@ def main():
                 v = -1
                 h = 0
                 creature[0].draw(my_win)
+                time.sleep(Speed)
             if h == -1 or button_Press == "m" and h != 1:
                 Start.undraw()
                 creature[len(creature)-1].undraw()
@@ -174,5 +193,9 @@ def main():
                 v = 0
                 h = -1
                 creature[0].draw(my_win)
-    my_win.close()
+                time.sleep(Speed)
+    try:
+        my_win.close()
+    except GraphicsError:
+            return None
 main()
