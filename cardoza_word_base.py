@@ -48,5 +48,6 @@ def convert(in_string):
     for num in equ_list: #This line of code grabs the numbers from
         t += num         #above and adds them together.
     out_num = t          #Example: (var)+(var)...etc
-    return print(out_num)
+    print(out_num)
+    return out_num
 convert("the quick fox jumps over the lazy dog")
